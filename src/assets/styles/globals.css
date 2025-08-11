@@ -1,0 +1,186 @@
+:root{
+    --nav-compact: 50px;
+    --nav-expanded: 320px;
+    --list-width: 270px;
+    --main-base: 640px;
+    --panel-min: 320px;
+    --duration: .5s;
+    --easing: cubic-bezier(.2,.8,.2,1);
+  }
+  *{box-sizing:border-box}
+  html,body,#app{height:100%;}
+  body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,"Helvetica Neue",Arial}
+  
+  .app{display:flex;flex-direction:row;height:100dvh;overflow:hidden;background:#0b0f14;color:#e6edf3}
+  
+  /* Nav */
+  .nav{position:fixed;left:0;top:0;height:100dvh;width:var(--nav-compact);background:#121822;border-right:1px solid #1e2733;transition:width var(--duration) var(--easing)}
+  .nav.expanded{width:var(--nav-expanded)}
+  .nav-inner{display:flex;flex-direction:column;height:100%}
+  .nav-top,.nav-bottom{padding:.5rem;display:grid;gap:.25rem}
+  .nav-middle{position:relative;flex:1 1 auto;overflow:hidden}
+  .nav-scroll{position:absolute;inset:0;overflow:auto;padding:.25rem .5rem;scrollbar-width:none}
+  .nav-scroll::-webkit-scrollbar{width:0;height:0}
+  .nav-arrow{position:absolute;left:0;right:0;display:flex;justify-content:center;pointer-events:none}
+  .nav-arrow > button{pointer-events:auto;background:#1b2431;border:1px solid #293243;border-radius:999px;padding:.25rem .5rem;opacity:.9}
+  .nav-arrow.top{top:.25rem}
+  .nav-arrow.bottom{bottom:.25rem}
+  
+  /* Columns layout shell (List/Main/Panel reserve margins for fixed Nav) */
+  .columns{display:flex;flex-direction:row;height:100dvh;margin-left:var(--nav-compact);transition:margin-left var(--duration) var(--easing)}
+  .nav.expanded ~ .columns{ /* Nav overlays in expanded mode */ }
+  
+  /* ListView */
+  .list{width:var(--list-width);min-width:var(--list-width);max-width:var(--list-width);border-right:1px solid #1e2733;background:#0f141b}
+  
+  /* MainView */
+  .main{width:var(--main-base);min-width:320px;max-width:min(100%, var(--main-base));border-right:1px solid #1e2733;background:#0c1117}
+  
+  /* PanelView */
+  .panel{min-width:var(--panel-min);flex:1 1 auto;background:#0f141b}
+  
+  /* Fullscreen states */
+  .fullscreen-main .list,.fullscreen-main .panel{display:none}
+  .fullscreen-main .main{flex:1 1 auto;max-width:100%}
+  .fullscreen-panel .list,.fullscreen-panel .main{display:none}
+  .fullscreen-panel .panel{flex:1 1 auto}
+  
+  /* Buttons */
+  .btn{display:flex;align-items:center;gap:.5rem;width:100%;background:#17202b;border:1px solid #243041;color:#e6edf3;padding:.5rem .6rem;border-radius:.75rem;cursor:pointer;transition:transform .15s ease, background .15s ease}
+  .btn:hover{background:#1b2533}
+  .btn.active{outline:2px solid #3b82f6}
+  .btn .emoji{font-size:1.1rem;line-height:1}
+  .btn .label{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .btn.compact{justify-content:center}
+  
+  /* Badges */
+  .badge{position:absolute;right:.15rem;bottom:.05rem;font-size:.65rem;line-height:1;padding:.15rem .35rem;border-radius:999px;border:1px solid #0b0f14}
+  .badge.green{background:#0f5132;color:#b6f7d2}
+  .badge.yellow{background:#664d03;color:#ffe69c}
+  .badge.red{background:#842029;color:#f8d7da}
+  
+  /* Utility */
+  .section-title{font-size:.75rem;color:#9fb1c1;margin:.3rem .4rem}
+  hr.sep{border:none;border-top:1px solid #1e2733;margin:.5rem 0}
+  
+  /* Basis: bestehendes Layout bleibt */
+.app{display:flex;flex-direction:row;height:100dvh;overflow:hidden;background:#0b0f14;color:#e6edf3}
+.nav{position:fixed;left:0;top:0;height:100dvh;width:var(--nav-compact);background:#121822;border-right:1px solid #1e2733;transition:width var(--duration) var(--easing), transform var(--duration) var(--easing)}
+.nav.expanded{width:var(--nav-expanded)}
+.columns{display:flex;flex-direction:row;height:100dvh;margin-left:var(--nav-compact);transition:margin-left var(--duration) var(--easing)}
+.list{width:var(--list-width);min-width:var(--list-width);max-width:var(--list-width);border-right:1px solid #1e2733;background:#0f141b}
+.main{width:var(--main-base);min-width:320px;max-width:min(100%, var(--main-base));border-right:1px solid #1e2733;background:#0c1117}
+.panel{min-width:var(--panel-min);flex:1 1 auto;background:#0f141b}
+
+
+/* Dünne, dezente Scrollbars (Firefox + WebKit) */
+.thin-scroll{ scrollbar-width: thin; scrollbar-color: #304156 transparent; }
+.thin-scroll::-webkit-scrollbar{ width:8px; height:8px; }
+.thin-scroll::-webkit-scrollbar-track{ background: transparent; }
+.thin-scroll::-webkit-scrollbar-thumb{ background: #304156; border-radius: 8px; border: 2px solid transparent; background-clip: content-box; }
+.thin-scroll:hover::-webkit-scrollbar-thumb{ background: #3a4d67; border-color: transparent; }
+
+
+/* Container braucht relative Position, damit .list absolut werden kann */
+/* .columns{ position: relative; }  */
+
+/* Basis: List in Layout, mit Transition */
+.list{ transition: transform var(--duration) var(--easing); }
+
+.nav{ z-index: 20; }
+.list{ z-index: 5; }
+
+
+/* === 1) Mobile: 320–767px === */
+@media (max-width: 767px){
+  .columns{ margin-left: 0; width: 100%; }
+
+  /* Nav 50px + List nimmt den ganzen Rest */
+  .mobile-nav-list .columns{ margin-left: var(--nav-compact); }
+  .mobile-nav-list .nav{ transform: translateX(0); width: var(--nav-compact); }
+  .mobile-nav-list .list{
+    display:block;
+    flex: 1 1 auto;       /* 👈 füllt den Rest */
+    width: auto;
+    min-width: 0;         /* wichtig für Flex-Overflow */
+    max-width: none;
+  }
+  .mobile-nav-list .main{ display:none !important; }
+  .mobile-nav-list .panel{ display:none !important; }
+
+  /* Main-only */
+  .mobile-main .nav{ transform: translateX(-100%); }
+  .mobile-main .list{ display:none !important; }
+  .mobile-main .main{ display:block; flex:1 1 auto; max-width:100%; }
+
+  /* Panel-only */
+  .mobile-panel .nav{ transform: translateX(-100%); }
+  .mobile-panel .list,.mobile-panel .main{ display:none !important; }
+  .mobile-panel .panel{ display:block; flex:1 1 auto; width:auto; min-width:0; max-width:none; overflow:auto; }
+}
+
+/* === 2) Tablet: 768–1366px === */
+@media (min-width: 768px) and (max-width: 1366px){
+  .columns{
+    display:flex;
+    flex-direction:row;
+    margin-left: var(--nav-compact);
+    width: 100%;
+    min-width: 0;                /* wichtig: Container darf schrumpfen */
+  }
+
+  .nav{ transform: translateX(0); }
+
+  /* Liste fix 270 px */
+  .list{
+    display:block;
+    flex: 0 0 var(--list-width); /* fixieren statt width */
+    width: auto;
+    min-width: var(--list-width);
+    max-width: var(--list-width);
+  }
+
+  /* Main füllt den gesamten Rest */
+  .main{
+    display:block;
+    flex: 1 1 0%;                /* Rest nehmen */
+    width: 0;                    /* Basisbreite auf 0, damit Flex greift */
+    min-width: 0;                /* Inhalt darf schrumpfen */
+    max-width: none;             /* nicht auf --main-base deckeln */
+    border-right: 0;             /* optional: sauberer Rand auf Tablet */
+  }
+
+  /* Panel auf Tablet ausblenden */
+  .panel{ display:none !important; }
+
+  /* Slide-Out, wenn collapsed */
+  .app.list-collapsed .list{
+    position:absolute; left:var(--nav-compact); top:0; bottom:0;
+    transform: translateX(-100%);
+    pointer-events: none; /* nicht klickbar, wenn ausgeblendet */
+
+      /* 👉 Wenn tablet-panel aktiv: Panel zeigen, Main verstecken */
+  .app.tablet-panel .panel{ display:block !important; }
+  .app.tablet-panel .main{  display:none  !important; }
+
+  }
+
+
+
+}
+
+/* === 3) Desktop: >= 1367px === */
+@media (min-width: 1367px){
+  .columns{ margin-left: var(--nav-compact); }
+  .nav{ transform: translateX(0); }
+  .list{ display:block; }
+  .main{ display:block; }
+  .panel{ display:block; min-width:var(--panel-min); }
+
+
+  .app.list-collapsed .list{
+    position:absolute; left:var(--nav-compact); top:0; bottom:0;
+    transform: translateX(-100%);
+    pointer-events: none;
+  }
+}
