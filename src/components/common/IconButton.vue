@@ -16,11 +16,8 @@
   
   const ui = useUiStore()
   const noti = useNotifications()
-  
   const compact = computed(() => !ui.navExpanded)
   const isActive = computed(() => ui.active === props.id)
-  
-  // 👇 Fallback: wenn counter fehlt → {count:0, prio:'green'}
   const badge = computed(() => ((noti.counters as any)?.[props.id]) ?? { count: 0, prio: 'green' })
   
   function onClick(){
@@ -28,15 +25,22 @@
       ui.toggleNav()
     } else {
       ui.setActive(props.id)
-      if (ui.bp >= 1) ui.toggleList(true)   // 👈 Liste zurückschieben (einblenden)
+      if (ui.bp >= 1) ui.toggleList(true)
     }
   }
-  </script>
+</script>
   
-  <template>
-    <button class="btn" :class="[{ active: isActive, compact }]" @click="onClick">
-      <span class="emoji">{{ emoji }}</span>
-      <span v-if="!compact" class="label">{{ label }}</span>
-      <Badge v-if="props.id !== 'menu'" class="relative" :count="badge.count" :prio="badge.prio" />
-    </button>
-  </template>
+<template>
+    <!-- aria-label keeps button accessible when text label is hidden in compact mode -->
+    <button
+      class="btn"
+      :class="[{ active: isActive, compact }]"
+      @click="onClick"
+      :aria-label="label"
+      type="button"
+    >
+    <span class="emoji">{{ emoji }}</span>
+    <span v-if="!compact" class="label">{{ label }}</span>
+    <Badge v-if="props.id !== 'menu'" class="relative" :count="badge.count" :prio="badge.prio" />
+  </button>
+</template>
