@@ -70,6 +70,13 @@
     return []
   })
   
+  function goBack(){
+    if (ui.bp <= 1){
+      if (window.history.length > 1) window.history.back()
+      else ui.setMobileMode('nav-list')
+    }
+  }
+  
   function openPanel(){
   if (ui.bp === 0) {
     // Mobile: in den Panel-Mode wechseln
