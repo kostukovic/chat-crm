@@ -7,13 +7,15 @@ export type ViewKey =
   | 'telegram' | 'email' | 'calendar'
   | 'whatsapp' | 'signal' | 'slack' | 'drive' | 'notes' | 'voice' | 'tasks' | 'crm' | 'support'
 
+export type MobileMode = 'nav-list' | 'main' | 'panel'
+
 const BREAKPOINT_MID = 768
 const BREAKPOINT_DESKTOP = 1367
 
 export const useUiStore = defineStore('ui', {
   state: () => ({
     navExpanded: false,
-    active: 'startup' as CoreKey,
+    active: 'startup' as ViewKey,
     showList: true,
     showPanel: true,
     fullscreen: null as null | 'main' | 'panel',
@@ -33,7 +35,7 @@ export const useUiStore = defineStore('ui', {
     mainBaseWidth() { return 640 },
   },
   actions: {
-    setActive(k: CoreKey) {
+    setActive(k: ViewKey) {
       this.active = k
       if (this.navExpanded) this.navExpanded = false
     },
