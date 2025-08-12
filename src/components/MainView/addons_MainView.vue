@@ -1,5 +1,3 @@
-<!-- src/components/NavView.vue -->
-
 <template>
   <nav>
     <button @click="ui.toggleMenu">🍔</button>
@@ -8,8 +6,8 @@
 </template>
 
 <script setup>
-  import { useUiStore } from '../stores/ui.js'
-  const ui = useUiStore()
+import { useUiStore } from "../stores/ui.js";
+const ui = useUiStore();
 </script>
 
 <style scoped>
@@ -20,5 +18,4 @@ nav {
   padding: 1rem;
   height: 100%;
 }
-
 </style>
