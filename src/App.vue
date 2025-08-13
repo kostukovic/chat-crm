@@ -26,7 +26,6 @@ onMounted(() => {
     ui.setActive("startup");
     ui.setMobileMode("nav-list");
     ui.togglePanel(false); // Panel aus; Panel wird nur in "mobile-panel" sichtbar
-    ui.navExpanded = false; // Hamburger zu (Overlay wird nur in main/panel gebraucht)
   }
 });
 

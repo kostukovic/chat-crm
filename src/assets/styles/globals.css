@@ -4,8 +4,7 @@
  */
 
  :root {
-  --nav-compact: 50px; /* Breite der eingeklappten Navigation */
-  --nav-expanded: 320px; /* Breite der ausgeklappten Navigation */
+  --nav-compact: 50px; /* Breite der Navigation */
   --list-width: 270px; /* Breite der Spalte mit der Listenansicht */
   --main-base: 640px; /* Basisbreite des Hauptinhaltsbereichs */
   --panel-min: 320px; /* Mindestbreite für das Seitenpanel */
@@ -48,12 +47,7 @@ body {
   width: var(--nav-compact); /* Startbreite im kompakten Modus */
   background: #121822;
   border-right: 1px solid #1e2733;
-  transition: width var(--duration) var(--easing), transform var(--duration) var(--easing); /* sanfte Übergänge beim Ein- und Ausklappen */
-}
-
-/* Breitere Navigation im ausgeklappten Zustand */
-.nav.expanded {
-  width: var(--nav-expanded);
+  transition: width var(--duration) var(--easing), transform var(--duration) var(--easing); /* sanfte Übergänge */
 }
 
 /* Innenleben der Navigation */
@@ -61,13 +55,14 @@ body {
   display: flex;
   flex-direction: column;
   height: 100%;
+  gap: 5px;
 }
 
 /* Bereiche innerhalb der Navigation */
 .nav-top, .nav-bottom {
-  padding: 0.5rem;
+  padding: 2px;
   display: grid;
-  gap: 0.25rem;
+  gap: 5px;
 }
 
 /* Mittlerer Bereich mit Scrollverhalten */
@@ -82,7 +77,12 @@ body {
   position: absolute;
   inset: 0;
   overflow: auto;
-  padding: 0.25rem 0.5rem;
+  padding: 2px;
+  display: grid;
+  gap: 5px;
+  grid-auto-rows: max-content;
+  align-items: start;       /* jedes Grid-Item oben ausrichten */
+  align-content: start;     /* gesamte Grid-Collection oben halten */
   scrollbar-width: none; /* Scrollbar in Firefox ausblenden */
 }
 
@@ -107,17 +107,17 @@ body {
   pointer-events: auto;
   background: #1b2431;
   border: 1px solid #293243;
-  border-radius: 999px;
-  padding: 0.25rem 0.5rem;
-  opacity: 0.9;
+  border-radius: 10px;
+  padding: 8px 12px;
+  opacity: 0.8;
 }
 
 /* Positionierung der Pfeile */
 .nav-arrow.top {
-  top: 0.25rem;
+  top: 1px;
 }
 .nav-arrow.bottom {
-  bottom: 0.25rem;
+  bottom: 1px;
 }
 
 /* ----- Layout mit drei Spalten (Liste/Hauptbereich/Panel) ----- */
@@ -127,11 +127,6 @@ body {
   height: 100dvh;
   margin-left: var(--nav-compact); /* Platz für die Navigation reservieren */
   transition: margin-left var(--duration) var(--easing);
-}
-
-/* Wenn die Navigation ausgeklappt ist, wird sie über den Inhalt gelegt */
-.nav.expanded ~ .columns {
-/* Keine Anpassung notwendig, aber Block bleibt für Klarheit */
 }
 
 /* ----- Listenansicht ----- */
@@ -290,13 +285,6 @@ hr.sep {
   .mobile-nav-list .columns {
     margin-left: var(--nav-compact);
   }
-
-  /* Nicht notwendig, denke nicht notwendig
-  .mobile-nav-list .nav {
-    transform: translateX(0);
-    width: var(--nav-compact);
-  }
-   */
 
   .mobile-nav-list .list {
     display: block;

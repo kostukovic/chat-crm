@@ -28,7 +28,6 @@ const BREAKPOINT_DESKTOP = 1367;
 
 export const useUiStore = defineStore("ui", {
   state: () => ({
-    navExpanded: false,
     active: "startup" as ViewKey,
     showList: true,
     showPanel: true,
@@ -44,9 +43,6 @@ export const useUiStore = defineStore("ui", {
       if (w < BREAKPOINT_DESKTOP) return 1;
       return 2;
     },
-    navWidth(state) {
-      return state.navExpanded ? 320 : 50;
-    },
     listWidth() {
       return 270;
     },
@@ -57,10 +53,6 @@ export const useUiStore = defineStore("ui", {
   actions: {
     setActive(k: ViewKey) {
       this.active = k;
-      if (this.navExpanded) this.navExpanded = false;
-    },
-    toggleNav() {
-      this.navExpanded = !this.navExpanded;
     },
     setSize(w: number, h: number) {
       this.width = w;

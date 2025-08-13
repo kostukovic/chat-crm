@@ -11,16 +11,31 @@ const scrollRef = ref<HTMLDivElement | null>(null);
 function updateArrows() {
   const el = scrollRef.value;
   if (!el) return;
-  showUp.value = el.scrollTop > 0;
-  showDown.value = el.scrollTop + el.clientHeight < el.scrollHeight;
+
+  const EPS = 1; // 1px Toleranz
+  const remaining = el.scrollHeight - (el.scrollTop + el.clientHeight);
+
+  // Oben: Pfeil nur anzeigen, wenn man wirklich nicht ganz oben ist
+  showUp.value = el.scrollTop > EPS;
+
+  // Unten: Pfeil ausblenden, wenn weniger als 20% der Sichtfläche übrig sind
+  const threshold = el.clientHeight * 0.05; // 20% Resthöhe
+  showDown.value = remaining > threshold + EPS;
 }
+
 function scrollByStep(dir: "up" | "down") {
   const el = scrollRef.value;
   if (!el) return;
   const step = Math.max(96, el.clientHeight * 0.6);
   el.scrollBy({ top: dir === "down" ? step : -step, behavior: "smooth" });
-  // Nach dem Scrollen Zustand aktualisieren
-  setTimeout(updateArrows, 300);
+
+  // während der Animation mehrfach nachziehen
+  let t = 0;
+  const tick = () => {
+    updateArrows();
+    if (t++ < 12) requestAnimationFrame(tick); // ~200ms bei 60fps
+  };
+  requestAnimationFrame(tick);
 }
 
 onMounted(() => {
@@ -30,17 +45,15 @@ onMounted(() => {
 </script>
 
 <template>
-  <aside class="nav" :class="{ expanded: ui.navExpanded }">
+  <aside class="nav">
     <div class="nav-inner">
+
       <div class="nav-top">
-        <IconButton id="menu" emoji="☰" label="Menü" />
         <IconButton id="startup" emoji="🚀" label="Startup" />
       </div>
 
       <div class="nav-middle">
         <div class="nav-scroll" ref="scrollRef">
-          <div class="section-title">Addons</div>
-          <IconButton id="addons" emoji="🧩" label="Addons" />
           <IconButton id="telegram" emoji="✈️" label="Telegram" />
           <IconButton id="email" emoji="✉️" label="E‑Mail" />
           <IconButton id="calendar" emoji="📅" label="Kalender" />
@@ -63,13 +76,16 @@ onMounted(() => {
         <div class="nav-arrow bottom" v-show="showDown">
           <button @click.stop.prevent="scrollByStep('down')">⬇️</button>
         </div>
+
       </div>
 
       <div class="nav-bottom">
+        <IconButton id="addons" emoji="🧩" label="Addons" />
         <IconButton id="perform" emoji="🚦" label="Performance" />
         <IconButton id="account" emoji="👤" label="Konto" />
         <IconButton id="settings" emoji="⚙️" label="Einstellungen" />
       </div>
+
     </div>
   </aside>
 </template>

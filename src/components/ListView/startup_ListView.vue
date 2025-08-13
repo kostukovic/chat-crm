@@ -30,6 +30,7 @@ function openItem(it: ListItem) {
 <template>
   <div>
     <h3 class="section-title">🚀 Startup</h3>
+    <input type="text" name="Suche" size="30" maxlength="40">
     <ul
       style="
         list-style: none;
