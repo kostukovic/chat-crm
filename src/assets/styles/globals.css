@@ -160,16 +160,14 @@ body {
 }
 
 /* ----- Vollbildzustände für bestimmte Bereiche ----- */
-.fullscreen-main .list,
-.fullscreen-main .panel {
+.fullscreen-main .list, .fullscreen-main .panel {
   display: none;
 }
 .fullscreen-main .main {
   flex: 1 1 auto;
   max-width: 100%;
 }
-.fullscreen-panel .list,
-.fullscreen-panel .main {
+.fullscreen-panel .list, .fullscreen-panel .main {
   display: none;
 }
 .fullscreen-panel .panel {
@@ -292,10 +290,14 @@ hr.sep {
   .mobile-nav-list .columns {
     margin-left: var(--nav-compact);
   }
+
+  /* Nicht notwendig, denke nicht notwendig
   .mobile-nav-list .nav {
     transform: translateX(0);
     width: var(--nav-compact);
   }
+   */
+
   .mobile-nav-list .list {
     display: block;
     flex: 1 1 auto;
@@ -327,8 +329,7 @@ hr.sep {
   .mobile-panel .nav {
     transform: translateX(-100%);
   }
-  .mobile-panel .list,
-  .mobile-panel .main {
+  .mobile-panel .list, .mobile-panel .main {
     display: none !important;
   }
   .mobile-panel .panel {
