@@ -1,27 +1,35 @@
-:root {
-  --nav-compact: 50px; /* collapsed navigation width */
-  --nav-expanded: 320px; /* expanded navigation width */
-  --list-width: 270px; /* width of the list column */
-  --main-base: 640px; /* base width of main content */
-  --panel-min: 320px; /* minimum width of side panel */
-  --duration: 0.5s; /* default transition duration */
-  --easing: cubic-bezier(0.2, 0.8, 0.2, 1); /* standard easing curve */
+/*
+ * Globale Styles für die Chat-CRM Anwendung.
+ * Beinhaltet Layout-Variablen, Grundstruktur und responsive Regeln.
+ */
+
+ :root {
+  --nav-compact: 50px; /* Breite der eingeklappten Navigation */
+  --nav-expanded: 320px; /* Breite der ausgeklappten Navigation */
+  --list-width: 270px; /* Breite der Spalte mit der Listenansicht */
+  --main-base: 640px; /* Basisbreite des Hauptinhaltsbereichs */
+  --panel-min: 320px; /* Mindestbreite für das Seitenpanel */
+  --duration: 0.5s; /* Standarddauer für Animationen und Übergänge */
+  --easing: cubic-bezier(0.2, 0.8, 0.2, 1); /* Standard-Easing-Kurve */
 }
 
+/* Standard-Einstellung für das Box-Modell */
 * {
-  box-sizing: border-box;
-}
-html,
-body,
-#app {
-  height: 100%;
-}
-body {
-  margin: 0;
-  font-family: system-ui, -apple-system, Segoe UI, Roboto, Ubuntu,
-    "Helvetica Neue", Arial;
+  box-sizing: border-box; /* Padding und Border werden in die Breite eingerechnet */
 }
 
+/* HTML- und Body-Elemente nehmen die komplette Höhe ein */
+html, body, #app {
+  height: 100dvh;
+  margin: 0;
+}
+
+/* Grundlegende Body-Styles und Schriftarten */
+body {
+  font-family: system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, "Helvetica Neue", Arial, sans-serif;
+}
+
+/* Hauptcontainer der Anwendung */
 .app {
   display: flex;
   flex-direction: row;
@@ -31,48 +39,60 @@ body {
   color: #e6edf3;
 }
 
-/* Navigation bar */
+/* ----- Navigationsleiste ----- */
 .nav {
-  position: fixed;
+  position: fixed; /* bleibt stets sichtbar */
   left: 0;
   top: 0;
   height: 100dvh;
-  width: var(--nav-compact);
+  width: var(--nav-compact); /* Startbreite im kompakten Modus */
   background: #121822;
   border-right: 1px solid #1e2733;
-  transition: width var(--duration) var(--easing),
-    transform var(--duration) var(--easing);
+  transition: width var(--duration) var(--easing), transform var(--duration) var(--easing); /* sanfte Übergänge beim Ein- und Ausklappen */
 }
+
+/* Breitere Navigation im ausgeklappten Zustand */
 .nav.expanded {
   width: var(--nav-expanded);
 }
+
+/* Innenleben der Navigation */
 .nav-inner {
   display: flex;
   flex-direction: column;
   height: 100%;
 }
-.nav-top,
-.nav-bottom {
+
+/* Bereiche innerhalb der Navigation */
+.nav-top, .nav-bottom {
   padding: 0.5rem;
   display: grid;
   gap: 0.25rem;
 }
+
+/* Mittlerer Bereich mit Scrollverhalten */
 .nav-middle {
   position: relative;
   flex: 1 1 auto;
   overflow: hidden;
 }
+
+/* Scrollcontainer in der Navigation */
 .nav-scroll {
   position: absolute;
   inset: 0;
   overflow: auto;
   padding: 0.25rem 0.5rem;
-  scrollbar-width: none;
+  scrollbar-width: none; /* Scrollbar in Firefox ausblenden */
 }
+
+/* Scrollbar in WebKit ausblenden */
 .nav-scroll::-webkit-scrollbar {
   width: 0;
   height: 0;
 }
+
+/* Pfeile, die auf den Scrollstatus hinweisen */
 .nav-arrow {
   position: absolute;
   left: 0;
@@ -81,6 +101,8 @@ body {
   justify-content: center;
   pointer-events: none;
 }
+
+/* Button innerhalb des Pfeils */
 .nav-arrow > button {
   pointer-events: auto;
   background: #1b2431;
@@ -89,6 +111,8 @@ body {
   padding: 0.25rem 0.5rem;
   opacity: 0.9;
 }
+
+/* Positionierung der Pfeile */
 .nav-arrow.top {
   top: 0.25rem;
 }
@@ -96,19 +120,21 @@ body {
   bottom: 0.25rem;
 }
 
-/* Columns layout shell (List/Main/Panel reserve margins for fixed Nav) */
+/* ----- Layout mit drei Spalten (Liste/Hauptbereich/Panel) ----- */
 .columns {
   display: flex;
   flex-direction: row;
   height: 100dvh;
-  margin-left: var(--nav-compact);
+  margin-left: var(--nav-compact); /* Platz für die Navigation reservieren */
   transition: margin-left var(--duration) var(--easing);
 }
+
+/* Wenn die Navigation ausgeklappt ist, wird sie über den Inhalt gelegt */
 .nav.expanded ~ .columns {
-  /* Nav overlays in expanded mode */
+/* Keine Anpassung notwendig, aber Block bleibt für Klarheit */
 }
 
-/* ListView */
+/* ----- Listenansicht ----- */
 .list {
   width: var(--list-width);
   min-width: var(--list-width);
@@ -117,7 +143,7 @@ body {
   background: #0f141b;
 }
 
-/* MainView */
+/* ----- Hauptbereich ----- */
 .main {
   width: var(--main-base);
   min-width: 320px;
@@ -126,14 +152,14 @@ body {
   background: #0c1117;
 }
 
-/* PanelView */
+/* ----- Seitenpanel ----- */
 .panel {
   min-width: var(--panel-min);
   flex: 1 1 auto;
   background: #0f141b;
 }
 
-/* Fullscreen states */
+/* ----- Vollbildzustände für bestimmte Bereiche ----- */
 .fullscreen-main .list,
 .fullscreen-main .panel {
   display: none;
@@ -150,7 +176,7 @@ body {
   flex: 1 1 auto;
 }
 
-/* Buttons */
+/* ----- Buttons ----- */
 .btn {
   display: flex;
   align-items: center;
@@ -162,7 +188,7 @@ body {
   padding: 0.5rem 0.6rem;
   border-radius: 0.75rem;
   cursor: pointer;
-  transition: transform 0.15s ease, background 0.15s ease;
+  transition: transform 0.15s ease, background 0.15s ease; /* kleine Animation bei Interaktion */
 }
 .btn:hover {
   background: #1b2533;
@@ -183,7 +209,7 @@ body {
   justify-content: center;
 }
 
-/* Badges */
+/* ----- Abzeichen (Badges) ----- */
 .badge {
   position: absolute;
   right: 0.15rem;
@@ -207,7 +233,7 @@ body {
   color: #f8d7da;
 }
 
-/* Utility */
+/* ----- Hilfsklassen ----- */
 .section-title {
   font-size: 0.75rem;
   color: #9fb1c1;
@@ -242,11 +268,12 @@ hr.sep {
   border-color: transparent;
 }
 
-/* Basis: List in Layout, mit Transition */
+/* Grundstil für die Listen-Spalte inkl. Transition */
 .list {
   transition: transform var(--duration) var(--easing);
 }
 
+/* Z-Ebenen für Navigation und Liste */
 .nav {
   z-index: 20;
 }
@@ -254,14 +281,14 @@ hr.sep {
   z-index: 5;
 }
 
-/* === 1) Mobile: 320–767px === */
+/* === 1) Mobile: 320–677px === */
 @media (max-width: 767px) {
   .columns {
     margin-left: 0;
     width: 100%;
   }
 
-  /* Nav 50px + List nimmt den ganzen Rest */
+  /* Navigation + Liste füllen den gesamten Bildschirm */
   .mobile-nav-list .columns {
     margin-left: var(--nav-compact);
   }
@@ -283,7 +310,7 @@ hr.sep {
     display: none !important;
   }
 
-  /* Main-only */
+  /* Nur Hauptbereich sichtbar */
   .mobile-main .nav {
     transform: translateX(-100%);
   }
@@ -296,7 +323,7 @@ hr.sep {
     max-width: 100%;
   }
 
-  /* Panel-only */
+  /* Nur Panel sichtbar */
   .mobile-panel .nav {
     transform: translateX(-100%);
   }
@@ -321,43 +348,46 @@ hr.sep {
     flex-direction: row;
     margin-left: var(--nav-compact);
     width: 100%;
-    min-width: 0; /* wichtig: Container darf schrumpfen */
+    min-width: 0; /* Container darf schrumpfen */
   }
   .nav {
     transform: translateX(0);
   }
-  /* Liste fix 270 px */
+
+  /* Liste bleibt fix 270px breit */
   .list {
     display: block;
-    flex: 0 0 var(--list-width); /* fixieren statt width */
+    flex: 0 0 var(--list-width); /* Fixe Breite über Flex */
     width: auto;
     min-width: var(--list-width);
     max-width: var(--list-width);
   }
 
-  /* Main füllt den gesamten Rest */
+  /* Hauptbereich füllt den verbleibenden Platz */
   .main {
     display: block;
-    flex: 1 1 0%; /* Rest nehmen */
-    width: 0; /* Basisbreite auf 0, damit Flex greift */
+    flex: 1 1 0%; /* verbleibender Platz */
+    width: 0; /* Basisbreite auf 0 für flexibles Verhalten */
     min-width: 0; /* Inhalt darf schrumpfen */
-    max-width: none; /* nicht auf --main-base deckeln */
-    border-right: 0; /* optional: sauberer Rand auf Tablet */
+    max-width: none; /* nicht auf --main-base begrenzen */
+    border-right: 0; /* optional: ohne Rand auf Tablets */
   }
 
-  /* Panel auf Tablet ausblenden */
+  /* Panel wird auf Tablets ausgeblendet */
   .panel {
     display: none !important;
   }
 
-  /* Slide-Out, wenn collapsed */
+  /* Einblendbare Liste, wenn sie zugeklappt ist */
   .app.list-collapsed .list {
     position: absolute;
     left: var(--nav-compact);
     top: 0;
     bottom: 0;
     transform: translateX(-100%);
-    pointer-events: none; /* nicht klickbar, wenn ausgeblendet */
+    pointer-events: none; /* keine Interaktion, wenn ausgeblendet */
+
+    /* Tablet-spezifischer Modus: Panel statt Main anzeigen */
     .app.tablet-panel .panel {
       display: block !important;
     }
@@ -394,3 +424,4 @@ hr.sep {
     pointer-events: none;
   }
 }
+
