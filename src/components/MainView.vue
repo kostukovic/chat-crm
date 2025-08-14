@@ -126,12 +126,7 @@ function openPanel() {
   <main class="main">
     <header class="mv-header">
       <div class="mv-left">
-        <button
-          v-if="ui.bp <= 1"
-          class="back-btn"
-          @click="goBack"
-          aria-label="Zurück"
-        >⬅️</button>
+        <button v-if="ui.bp === 0" class="btn-back" @click="ui.setMobileMode('list')">⬅️</button>
         <strong>{{ title }}</strong>
       </div>
       <div class="mv-right">
