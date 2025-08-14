@@ -48,6 +48,7 @@ body {
   background: #121822;
   border-right: 1px solid #1e2733;
   transition: width var(--duration) var(--easing), transform var(--duration) var(--easing); /* sanfte Übergänge */
+  z-index: 20;
 }
 
 /* Innenleben der Navigation */
@@ -137,6 +138,8 @@ body {
   max-width: var(--list-width);
   border-right: 1px solid #1e2733;
   background: #0f141b;
+  transition: transform var(--duration) var(--easing);
+  z-index: 5;
 }
 
 /* ----- Hauptbereich ----- */
@@ -265,19 +268,6 @@ hr.sep {
 .thin-scroll:hover::-webkit-scrollbar-thumb {
   background: #3a4d67;
   border-color: transparent;
-}
-
-/* Grundstil für die Listen-Spalte inkl. Transition */
-.list {
-  transition: transform var(--duration) var(--easing);
-}
-
-/* Z-Ebenen für Navigation und Liste */
-.nav {
-  z-index: 20;
-}
-.list {
-  z-index: 5;
 }
 
 /* === 1) Mobile: 320–677px === */

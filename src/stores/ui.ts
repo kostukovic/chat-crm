@@ -70,10 +70,5 @@ export const useUiStore = defineStore("ui", {
     setMobileMode(mode: MobileMode) {
       this.mobileMode = mode;
     },
-    openPanel() {
-      if (this.bp === 0) this.setMobileMode("panel");
-      else if (this.bp === 2) this.togglePanel(true);
-      // auf Tablet bleibt Panel per Design ausgeblendet
-    },
   },
 });

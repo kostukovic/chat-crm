@@ -126,26 +126,14 @@ function openPanel() {
   <main class="main">
     <header class="mv-header">
       <div class="mv-left">
-        <button v-if="ui.bp === 0" class="btn-back" @click="ui.setMobileMode('list')">⬅️</button>
+        <button v-if="ui.bp === 0" class="back-btn" @click="ui.setMobileMode('nav-list')">⬅️</button>
         <strong>{{ title }}</strong>
       </div>
       <div class="mv-right">
         <button class="lv-btn lv-btn-ghost">☰</button>
         <button class="lv-btn lv-btn-ghost">🔎</button>
-        <button
-          class="btn"
-          @click="ui.setFullscreen(ui.fullscreen === 'main' ? null : 'main')"
-        >
-          {{ ui.fullscreen === "main" ? "🗗" : "⛶" }}
-        </button>
-        <button
-          v-if="ui.bp <= 1 && body.length > 0"
-          class="arrow-btn"
-          @click="openPanel"
-          aria-label="Details im Panel öffnen"
-        >
-          ➡️
-        </button>
+        <button v-if="ui.bp >= 1" class="btn" @click="ui.setFullscreen(ui.fullscreen === 'main' ? null : 'main')">{{ ui.fullscreen === "main" ? "🗗" : "⛶" }}</button>
+        <button v-if="ui.bp >= 0" class="next-btn" @click="ui.setMobileMode('panel')">➡️</button>
       </div>
     </header>
 
@@ -230,12 +218,12 @@ function openPanel() {
   border-radius: 0.6rem;
   cursor: pointer;
 }
-.arrow-btn {
+.next-btn {
   appearance: none;
   border: 1px solid #243041;
   background: #17202b;
   color: #e6edf3;
-  padding: 0.25rem 0.5rem;
+  padding: 0.35rem 0.55rem;
   border-radius: 0.6rem;
   cursor: pointer;
 }
@@ -270,8 +258,8 @@ function openPanel() {
 
 
 
-/* Ab 767 px beide Hilfsbuttons ausblenden */
-@media (min-width: 767px) {
+/* Ab 768 px beide Hilfsbuttons ausblenden */
+@media (min-width: 768px) {
   .back-btn {
     display: none;
   }
@@ -279,7 +267,7 @@ function openPanel() {
 
 /* Ab 1367 px beide Hilfsbuttons ausblenden */
 @media (min-width: 1367px) {
-  .arrow-btn {
+  .next-btn {
     display: none;
   }
 }

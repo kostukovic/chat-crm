@@ -79,19 +79,12 @@ function goBack() {
         border-bottom: 1px solid #1e2733;
       "
     >
-      <button v-if="ui.bp === 0" class="btn-back" @click="ui.setMobileMode('main')">⬅️</button>
+      <button v-if="ui.bp === 0" class="back-btn" @click="ui.setMobileMode('main')">⬅️</button>
       <strong>📎 {{ title }}</strong>
       <div style="display: flex; gap: 0.4rem">
         <button class="lv-btn lv-btn-ghost">☰</button>
         <button class="lv-btn lv-btn-ghost">🔎</button>
-        <button
-          v-if="ui.bp === 2"
-          class="btn"
-          @click="ui.setFullscreen(ui.fullscreen === 'panel' ? null : 'panel')"
-        >
-          {{ ui.fullscreen === "panel" ? "🗗" : "⛶" }}
-        </button>
-
+        <button v-if="ui.bp >= 1" class="btn" @click="ui.setFullscreen(ui.fullscreen === 'panel' ? null : 'panel')"> {{ ui.fullscreen === "panel" ? "🗗" : "⛶" }}</button>
       </div>
     </header>
 
