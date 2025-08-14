@@ -26,9 +26,7 @@ function collapse() {
       <div class="mv-right">
         <button class="lv-btn lv-btn-ghost">☰</button>
         <button class="lv-btn lv-btn-ghost">🔎</button>
-        <button v-if="ui.bp >= 1" class="lv-btn lv-btn-ghost" @click="collapse">
-          ⟨
-        </button>
+        <button v-if="ui.bp >= 1" class="lv-btn lv-btn-ghost" @click="collapse">⟨</button>
       </div>
     </header>
   
@@ -57,10 +55,3 @@ function collapse() {
     />
   </section>
 </template>
-
-<style scoped>
-/* Collapse-Button verstecken auf Mobile */
-@media (max-width: 767px) {
-  .toggle-list-btn { display: none; }
-}
-</style>

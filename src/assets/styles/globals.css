@@ -47,17 +47,26 @@ body {
   display: flex;
   flex-direction: row;
   height: 100dvh;
+  width: 100%;
+  min-width: 0;     /* Container darf schrumpfen */
+  overflow: hidden; /* nichts auslaufen lassen */
   /* transition: margin-left var(--duration) var(--easing);*/
 }
 
 
-
+/* Standard für alle direkten Flex-Kinder: schrumpfen erlaubt */
+.columns > * {
+  min-width: 0;     /* WICHTIG: erlaubt echtes Shrinking/ellipsis etc. */
+  flex-shrink: 1;   /* darf schrumpfen */
+}
 
 
 /* ----- Navigationsleiste ----- */
 .nav {
   height: 100dvh;
-  width: var(--nav-compact); /* Startbreite im kompakten Modus */
+  width: auto;
+  min-width: var(--nav-compact);
+  max-width: var(--nav-compact);
   background: #121822;
   border-right: 1px solid #1e2733;
   transition: width var(--duration) var(--easing), transform var(--duration) var(--easing); /* sanfte Übergänge */
@@ -75,6 +84,7 @@ body {
   display: flex;
   flex-direction: column;
   height: 100%;
+  padding: 2px 0px 2px 0px;
   gap: 3px;
 }
 
@@ -100,7 +110,7 @@ body {
   padding: 2px;
   display: grid;
   gap: 5px;
-  border-radius: 15px;
+  border-radius: 12px;
   grid-auto-rows: max-content;
   align-items: start;       /* jedes Grid-Item oben ausrichten */
   align-content: start;     /* gesamte Grid-Collection oben halten */
@@ -149,7 +159,8 @@ body {
 
 /* ----- Listenansicht ----- */
 .list {
-  width: var(--list-width);
+  flex: 0 0 var(--list-width);
+  width: auto;
   min-width: var(--list-width);
   max-width: var(--list-width);
   border-right: 1px solid #1e2733;
@@ -162,19 +173,21 @@ body {
 
 /* ----- Hauptbereich ----- */
 .main {
+  flex: 0 0 var(--main-base); /* Basisbreite definiert */
   width: var(--main-base);
-  min-width: 320px;
-  max-width: min(100%, var(--main-base));
+  min-width: 0;               /* darf schrumpfen */
+  max-width: none;
   border-right: 1px solid #1e2733;
   background: #0c1117;
+
 }
 
 
 
 /* ----- Seitenpanel ----- */
 .panel {
-  min-width: var(--panel-min);
   flex: 1 1 auto;
+  min-width: var(--panel-min);
   background: #0f141b;
 }
 
@@ -220,8 +233,8 @@ body {
   background: #17202b;
   border: 1px solid #243041;
   color: #e6edf3;
-  padding: 0.5rem 0.6rem;
-  border-radius: 0.75rem;
+  padding: 8px 10px 8px 10px;
+  border-radius: 10px;
   cursor: pointer;
   transition: transform 0.15s ease, background 0.15s ease; /* kleine Animation bei Interaktion */
 }
@@ -232,7 +245,7 @@ body {
   outline: 2px solid #3b82f6;
 }
 .nav-btn .emoji {
-  font-size: 1.1rem;
+  font-size: 16px;
   line-height: 1;
 }
 
@@ -245,30 +258,35 @@ body {
 
 
 .mv-title {
+  flex: 1 1 auto;  
+  min-width: 0;  
   color: #e6edf3;
+  padding-left: 5px;
   font-weight: 600;
-  font-size: 15px;
+  font-size: 16x;
   letter-spacing: .2px;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
+
 .mv-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 4px 10px;
+  padding: 4px 2px 4px 2px;
   border-bottom: 1px solid #1e2733;
 }
 .mv-left {
   margin-right: auto;    
   display: flex;
   align-items: center;
-  gap: 5px;
+  min-width: 0; 
 }
 .mv-right {
   margin-left: auto;                
   display: flex;
+
   align-items: center;
   gap: 5px;
 }
@@ -280,7 +298,7 @@ body {
   padding: 8px 15px;
   border-radius: 10px;
   cursor: pointer;
-  font-size: 15px;
+  font-size: 16px;
   line-height: 1;
   transition: background .15s ease, border-color .15s ease, transform .04s ease;
 }
@@ -368,55 +386,122 @@ body {
 
 
 
-
-
-
-/* === 1) Mobile: 320–677px === */
+/* === 1) Mobile: 320–767px === */
 @media (max-width: 767px) {
+  /* Bühne */
+  .app { overflow: hidden; }
   .columns {
+    position: relative;
     width: 100vw;
-  }
-  .mobile-nav-list .list {
-    display: block;
-    flex: 1 1 auto;
-    width: auto;
-    min-width: 0;
-    max-width: none;
-  }
-  .mobile-nav-list .main {
-    display: none !important;
-  }
-  .mobile-nav-list .panel {
-    display: none !important;
-  }
-  .mobile-main .nav {
-    display: none !important;
-  }
-  .mobile-main .list {
-    display: none !important;
+    height: 100dvh;
+    overflow: hidden;
   }
 
-  .mobile-panel .list, .mobile-panel .main,  .mobile-panel .nav {
-    display: none !important;
+  /* Ein Track, drei Slides -> EIN transform, alles synchron */
+  .track {
+    display: flex;
+    flex-direction: row;
+    width: 300vw; /* 3 x 100vw */
+    height: 100dvh;
+    transform: translate3d(var(--mobile-x, 0), 0, 0);
+    transition: transform var(--duration) var(--easing);
+    will-change: transform;
   }
 
-  .mobile-main .main {
-    display: block;
-    flex: 1 1 auto;
-    max-width: 100%;
+  .slide {
+    flex: 0 0 100vw;
+    width: 100vw;
+    height: 100dvh;
+    overflow: hidden;
+    position: relative;
   }
 
-
-  .mobile-panel .panel {
-    display: block;
-    flex: 1 1 auto;
-    width: auto;
-    min-width: 0;
-    max-width: none;
-    overflow: auto;
-  }
+/* Slide 1: nav + list teilen sich 100vw */
+.slide--navlist {
+  display: flex;
+  flex-direction: row;
+  min-width: 0; /* wichtig, damit die List schrumpfen darf */
 }
 
+.slide--navlist .nav {
+  flex: 0 0 var(--nav-compact);
+  width: var(--nav-compact);
+  min-width: var(--nav-compact);
+  max-width: var(--nav-compact);
+  height: 100dvh;
+  border-right: 1px solid #1e2733;
+}
+
+/* Origin ohne calc
+.slide--navlist .list {
+  flex: 1 1 0%;
+  min-width: 0;
+  max-width: none;
+  width: auto;
+  height: 100dvh;
+  border-right: 0;
+  overflow: auto;
+} */
+
+.slide--navlist .list {
+  flex: 0 0 calc(100vw - var(--nav-compact));
+  width: calc(100vw - var(--nav-compact));
+  min-width: 0;
+  max-width: calc(100vw - var(--nav-compact));
+  height: 100dvh;
+  border-right: 0;
+  overflow: auto; /* optional */
+}
+
+  /* Slide 2: main füllt ganz */
+  .slide--main {
+    display: flex;
+  }
+  .slide--main .main {
+    flex: 1 1 auto;
+    min-width: 0;
+    height: 100dvh;
+    border-right: 0;
+  }
+
+  /* Slide 3: panel füllt ganz */
+  .slide--panel {
+    display: flex;
+  }
+  .slide--panel .panel {
+    flex: 1 1 auto;
+    min-width: 0;
+    height: 100dvh;
+  }
+
+  /* WICHTIG: Keine Einzel-Transitions/Transforms an nav/list/main/panel! */
+  .nav, .list, .main, .panel {
+    transform: none !important;
+    transition: none !important;
+  }
+
+  /* Zustände: nur Track verschieben */
+  .app.mobile-nav-list { --mobile-x: 0vw; }
+  .app.mobile-main     { --mobile-x: -100vw; }
+  .app.mobile-panel    { --mobile-x: -200vw; }
+
+  /* Offscreen-Interaktion sperren (optional) */
+  .app.mobile-nav-list .slide--main,
+  .app.mobile-nav-list .slide--panel { pointer-events: none; }
+  .app.mobile-main .slide--navlist,
+  .app.mobile-main .slide--panel { pointer-events: none; }
+  .app.mobile-panel .slide--navlist,
+  .app.mobile-panel .slide--main { pointer-events: none; }
+
+  /* Dezent: Scrollbars ausblenden */
+  .thin-scroll { scrollbar-width: none; }
+  .thin-scroll::-webkit-scrollbar { width: 0; height: 0; }
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .track { transition: none !important; }
+}
 
 
 
@@ -433,51 +518,88 @@ body {
     display: flex;
     flex-direction: row;
     width: 100%;
-    min-width: 0; /* Container darf schrumpfen */
+    min-width: 0;
+    height: 100dvh;
+    overflow: hidden;
   }
+
+  /* Nav bleibt kompakt links */
   .nav {
+    flex: 0 0 var(--nav-compact);
+    min-width: var(--nav-compact);
+    max-width: var(--nav-compact);
+    height: 100dvh;
+    border-right: 1px solid #1e2733;
     transform: translateX(0);
   }
 
-  /* Liste bleibt fix 270px breit */
+  /* Liste fix 270px */
   .list {
     display: block;
-    flex: 0 0 var(--list-width); /* Fixe Breite über Flex */
-    width: auto;
+    flex: 0 0 var(--list-width);
     min-width: var(--list-width);
     max-width: var(--list-width);
+    height: 100dvh;
+    border-right: 1px solid #1e2733;
   }
 
-  /* Hauptbereich füllt den verbleibenden Platz */
-  .main {
-    display: block;
-    flex: 1 1 0%; /* verbleibender Platz */
-    width: 0; /* Basisbreite auf 0 für flexibles Verhalten */
-    min-width: 0; /* Inhalt darf schrumpfen */
-    max-width: none; /* nicht auf --main-base begrenzen */
-    border-right: 0; /* optional: ohne Rand auf Tablets */
+  /* NEU: rechter Bereich als Track mit 2 Slides (Main | Panel) */
+  .t-track {
+    position: relative;
+    flex: 1 1 0%;
+    width: 0;          /* flex-gesteuert */
+    min-width: 0;
+    height: 100dvh;
+    overflow: hidden;
   }
 
-  /* Panel wird auf Tablets ausgeblendet */
-  .panel {
-    display: none !important;
+  .t-strip {
+    display: flex;
+    flex-direction: row;
+    height: 100%;
+    transform: translate3d(var(--tablet-x, 0), 0, 0);
+    transition: transform var(--duration) var(--easing);
+    will-change: transform;
   }
 
-  /* Tablet-spezifischer Modus: Panel statt Main anzeigen */
-  .app.tablet-panel .main  { display: none !important; }
+  .t-slide { 
+    flex: 0 0 100%;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    position: relative;
+  }
+
+  /* Inhalt in den Slides füllt den Bereich */
+  .t-main .main,
+  .t-panel .panel {
+    width: 100%;
+    height: 100%;
+    min-width: 0;
+    border-right: 0; /* sauberer Übergang */
+  }
+
+  /* ALTE Tablet-Regeln deaktivieren/ersetzen:
+     KEIN display:none mehr für .panel/.main auf Tablet! */
+  .panel { display: block !important; }
+  .app.tablet-panel .main  { display: block !important; }
   .app.tablet-panel .panel { display: block !important; }
 
-  /* Einblendbare Liste, wenn sie zugeklappt ist */
+  /* Zustände: nur der Track verschiebt sich */
+  .app:not(.tablet-panel) { --tablet-x: 0%; }
+  .app.tablet-panel       { --tablet-x: -100%; }
+
+  /* Eingeklappte Liste darf überlagern (wie bisher) */
   .app.list-collapsed .list {
     position: absolute;
     left: var(--nav-compact);
     top: 0;
     bottom: 0;
     transform: translateX(-100%);
-    pointer-events: none; /* keine Interaktion, wenn ausgeblendet */
+    pointer-events: none;
   }
-
 }
+
 
 
 
@@ -511,13 +633,12 @@ body {
     left: var(--nav-compact);
     top: 0;
     bottom: 0;
-    transform: translateX(-100%);
+    transform: translateX(-100%);  /* fährt raus */
     pointer-events: none;
   }
   /* when the list is collapsed, allow the main view to occupy the freed space */
   .app.list-collapsed .main {
-    width: calc(var(--main-base) + var(--list-width));
-    max-width: min(100%, calc(var(--main-base) + var(--list-width)));
+    flex-basis: calc(var(--main-base) + var(--list-width));
   }
 }
 
