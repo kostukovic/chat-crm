@@ -84,25 +84,23 @@ function goBack() {
         class="back-btn"
         @click="goBack"
         aria-label="Zurück"
-      >
-        ←
-      </button>
+      >⬅️</button>
       <strong>📎 {{ title }}</strong>
       <div style="display: flex; gap: 0.4rem">
+        <button class="lv-btn lv-btn-ghost">☰</button>
+        <button class="lv-btn lv-btn-ghost">🔎</button>
         <button
           v-if="ui.bp === 2"
           class="btn"
           @click="ui.setFullscreen(ui.fullscreen === 'panel' ? null : 'panel')"
         >
-          {{ ui.fullscreen === "panel" ? "Vollbild verlassen" : "Vollbild" }}
+          {{ ui.fullscreen === "panel" ? "🗗" : "⛶" }}
         </button>
         <button
           v-if="ui.bp === 0"
           class="btn"
           @click="ui.setMobileMode('main')"
-        >
-          Zurück
-        </button>
+        >Zurück</button>
       </div>
     </header>
 
@@ -132,6 +130,37 @@ function goBack() {
   margin-right: 0.5rem;
   cursor: pointer;
 }
+
+
+/* Schöne, dezente Buttons im Dark-Theme */
+.lv-btn {
+  appearance: none;
+  border: 1px solid #243041;
+  background: #17202b;
+  color: #e6edf3;
+  padding: 0.35rem 0.6rem;
+  border-radius: 0.6rem;
+  cursor: pointer;
+  font-size: .85rem;
+  line-height: 1;
+  transition: background .15s ease, border-color .15s ease, transform .04s ease;
+}
+.lv-btn:hover { background: #1b2533; border-color: #2b3a4c; }
+.lv-btn:active { transform: translateY(1px); }
+.lv-btn:focus-visible { outline: 2px solid #3b82f6; outline-offset: 2px; }
+
+/* Ghost-Variante (dezenter) */
+.lv-btn-ghost {
+  background: #141b24;
+  border-color: #223041;
+}
+.lv-btn-ghost:hover {
+  background: #1a2330;
+  border-color: #2a3a4e;
+}
+
+
+
 @media (min-width: 1367px) {
   .back-btn {
     display: none;

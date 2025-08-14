@@ -156,18 +156,23 @@ body {
 }
 
 /* ----- Vollbildzustände für bestimmte Bereiche ----- */
-.fullscreen-main .list, .fullscreen-main .panel {
+.fullscreen-main .nav, 
+.fullscreen-main .list, 
+.fullscreen-main .panel {
   display: none;
 }
 .fullscreen-main .main {
   flex: 1 1 auto;
   max-width: 100%;
 }
-.fullscreen-panel .list, .fullscreen-panel .main {
+.fullscreen-panel .nav,
+.fullscreen-panel .list, 
+.fullscreen-panel .main {
   display: none;
 }
 .fullscreen-panel .panel {
   flex: 1 1 auto;
+  max-width: 100%;
 }
 
 /* ----- Buttons ----- */
@@ -412,6 +417,11 @@ hr.sep {
     bottom: 0;
     transform: translateX(-100%);
     pointer-events: none;
+  }
+  /* when the list is collapsed, allow the main view to occupy the freed space */
+  .app.list-collapsed .main {
+    width: calc(var(--main-base) + var(--list-width));
+    max-width: min(100%, calc(var(--main-base) + var(--list-width)));
   }
 }
 
