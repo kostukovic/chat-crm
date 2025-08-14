@@ -11,6 +11,10 @@ import CalendarList from "./ListView/calendar_ListView.vue";
 import DummyList from "./ListView/dummy_ListView.vue";
 
 const ui = useUiStore();
+
+function collapse() {
+  if (ui.bp >= 1) ui.toggleList(false);
+}
 </script>
 
 <template>

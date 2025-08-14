@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { onMounted } from "vue";
 import NavView from "./components/NavView.vue";
-import SidebarList from "./components/SidebarList.vue";
+import ListView from "./components/ListView.vue";
 import MainView from "./components/MainView.vue";
 import PanelView from "./components/PanelView.vue";
 import { useUiStore } from "./stores/ui";
@@ -47,7 +47,6 @@ useBackNav();
   >
     <NavView />
     <div class="columns">
-      <SidebarList />
       <ListView />
       <MainView />
       <Splitter
