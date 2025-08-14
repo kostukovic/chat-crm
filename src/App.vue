@@ -45,14 +45,11 @@ useBackNav();
       'tablet-panel': ui.bp === 1 && ui.showPanel,
     }"
   >
-    <NavView />
     <div class="columns">
+      <NavView />
       <ListView />
       <MainView />
-      <Splitter
-        v-if="ui.bp === 2 && ui.fullscreen === null"
-        @resize="onResize"
-      />
+      <Splitter v-if="ui.bp === 2 && ui.fullscreen === null" @resize="onResize" />
       <PanelView />
     </div>
   </div>

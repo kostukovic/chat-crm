@@ -100,40 +100,20 @@ const body = computed(() => {
   }
   return [];
 });
-
-function goBack() {
-  if (ui.bp <= 1) {
-    if (window.history.length > 1) window.history.back();
-    else ui.setMobileMode("nav-list");
-  }
-}
-
-function openPanel() {
-  if (ui.bp === 0) {
-    // Mobile: in den Panel-Mode wechseln
-    ui.setMobileMode("panel");
-  } else if (ui.bp === 1) {
-    // Tablet: Panel sichtbar schalten (Main wird per CSS ausgeblendet)
-    ui.togglePanel(true);
-  } else {
-    // Desktop: wie gehabt
-    ui.openPanel();
-  }
-}
 </script>
 
 <template>
   <main class="main">
     <header class="mv-header">
       <div class="mv-left">
-        <button v-if="ui.bp === 0" class="back-btn" @click="ui.setMobileMode('nav-list')">⬅️</button>
-        <strong>{{ title }}</strong>
+        <button v-if="ui.bp === 0" class="lv-btn-sh" @click="ui.setMobileMode('nav-list')">⬅️</button>
+        <strong class="mv-title">{{ title }}</strong>
       </div>
       <div class="mv-right">
         <button class="lv-btn lv-btn-ghost">☰</button>
         <button class="lv-btn lv-btn-ghost">🔎</button>
-        <button v-if="ui.bp >= 1" class="btn" @click="ui.setFullscreen(ui.fullscreen === 'main' ? null : 'main')">{{ ui.fullscreen === "main" ? "🗗" : "⛶" }}</button>
-        <button v-if="ui.bp >= 0" class="next-btn" @click="ui.setMobileMode('panel')">➡️</button>
+        <button v-if="ui.bp >= 1" class="lv-btn lv-btn-ghost" @click="ui.setFullscreen(ui.fullscreen === 'main' ? null : 'main')">{{ ui.fullscreen === "main" ? "🗗" : "⛶" }}</button>
+        <button v-if="ui.bp !== 2" class="lv-btn-sh lv-btn-ghost" @click="ui.bp === 0 ? ui.setMobileMode('panel') : ui.openPanel()">➡️</button>
       </div>
     </header>
 
@@ -157,24 +137,6 @@ function openPanel() {
 </template>
 
 <style scoped>
-.mv-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0.6rem 0.8rem;
-  border-bottom: 1px solid #1e2733;
-}
-.mv-left {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-}
-.mv-right {
-  display: flex;
-  align-items: center;
-  gap: 0.4rem;
-}
-
 .mv-col {
   height: calc(100dvh - 44px);
   display: flex;
@@ -207,68 +169,5 @@ function openPanel() {
   margin: 0.25rem 0 0 0;
   white-space: pre-wrap;
   font-family: inherit;
-}
-
-.back-btn {
-  appearance: none;
-  border: 1px solid #243041;
-  background: #17202b;
-  color: #e6edf3;
-  padding: 0.35rem 0.55rem;
-  border-radius: 0.6rem;
-  cursor: pointer;
-}
-.next-btn {
-  appearance: none;
-  border: 1px solid #243041;
-  background: #17202b;
-  color: #e6edf3;
-  padding: 0.35rem 0.55rem;
-  border-radius: 0.6rem;
-  cursor: pointer;
-}
-
-
-/* Schöne, dezente Buttons im Dark-Theme */
-.lv-btn {
-  appearance: none;
-  border: 1px solid #243041;
-  background: #17202b;
-  color: #e6edf3;
-  padding: 0.35rem 0.6rem;
-  border-radius: 0.6rem;
-  cursor: pointer;
-  font-size: .85rem;
-  line-height: 1;
-  transition: background .15s ease, border-color .15s ease, transform .04s ease;
-}
-.lv-btn:hover { background: #1b2533; border-color: #2b3a4c; }
-.lv-btn:active { transform: translateY(1px); }
-.lv-btn:focus-visible { outline: 2px solid #3b82f6; outline-offset: 2px; }
-
-/* Ghost-Variante (dezenter) */
-.lv-btn-ghost {
-  background: #141b24;
-  border-color: #223041;
-}
-.lv-btn-ghost:hover {
-  background: #1a2330;
-  border-color: #2a3a4e;
-}
-
-
-
-/* Ab 768 px beide Hilfsbuttons ausblenden */
-@media (min-width: 768px) {
-  .back-btn {
-    display: none;
-  }
-}
-
-/* Ab 1367 px beide Hilfsbuttons ausblenden */
-@media (min-width: 1367px) {
-  .next-btn {
-    display: none;
-  }
 }
 </style>

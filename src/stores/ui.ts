@@ -30,7 +30,7 @@ export const useUiStore = defineStore("ui", {
   state: () => ({
     active: "startup" as ViewKey,
     showList: true,
-    showPanel: true,
+    showPanel: false,
     fullscreen: null as null | "main" | "panel",
     width: window.innerWidth,
     height: window.innerHeight,
@@ -70,5 +70,7 @@ export const useUiStore = defineStore("ui", {
     setMobileMode(mode: MobileMode) {
       this.mobileMode = mode;
     },
+    openPanel()  { this.togglePanel(true);  },
+    closePanel() { this.togglePanel(false); },
   },
 });

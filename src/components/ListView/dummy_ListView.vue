@@ -29,7 +29,7 @@ function open() {
           Hier könnte eine Addon‑Liste erscheinen. Tippe, um Main zu zeigen.
         </div>
         <div style="margin-top: 0.5rem">
-          <button class="btn" @click="open()">Öffnen</button>
+          <button class="nav-btn" @click="open()">Öffnen</button>
         </div>
       </div>
     </div>

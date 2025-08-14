@@ -53,6 +53,7 @@ onMounted(() => {
       </div>
 
       <div class="nav-middle">
+        
         <div class="nav-scroll" ref="scrollRef">
           <IconButton id="telegram" emoji="✈️" label="Telegram" />
           <IconButton id="email" emoji="✉️" label="E‑Mail" />

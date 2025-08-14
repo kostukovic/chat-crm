@@ -38,11 +38,24 @@ body {
   color: #e6edf3;
 }
 
+
+
+
+
+/* ----- Layout mit vier Spalten (Nav/Liste/Hauptbereich/Panel) ----- */
+.columns {
+  display: flex;
+  flex-direction: row;
+  height: 100dvh;
+  /* transition: margin-left var(--duration) var(--easing);*/
+}
+
+
+
+
+
 /* ----- Navigationsleiste ----- */
 .nav {
-  position: fixed; /* bleibt stets sichtbar */
-  left: 0;
-  top: 0;
   height: 100dvh;
   width: var(--nav-compact); /* Startbreite im kompakten Modus */
   background: #121822;
@@ -50,6 +63,12 @@ body {
   transition: width var(--duration) var(--easing), transform var(--duration) var(--easing); /* sanfte Übergänge */
   z-index: 20;
 }
+
+
+
+
+
+
 
 /* Innenleben der Navigation */
 .nav-inner {
@@ -122,14 +141,11 @@ body {
   bottom: 1px;
 }
 
-/* ----- Layout mit drei Spalten (Liste/Hauptbereich/Panel) ----- */
-.columns {
-  display: flex;
-  flex-direction: row;
-  height: 100dvh;
-  margin-left: var(--nav-compact); /* Platz für die Navigation reservieren */
-  transition: margin-left var(--duration) var(--easing);
-}
+
+
+
+
+
 
 /* ----- Listenansicht ----- */
 .list {
@@ -142,6 +158,8 @@ body {
   z-index: 5;
 }
 
+
+
 /* ----- Hauptbereich ----- */
 .main {
   width: var(--main-base);
@@ -151,6 +169,8 @@ body {
   background: #0c1117;
 }
 
+
+
 /* ----- Seitenpanel ----- */
 .panel {
   min-width: var(--panel-min);
@@ -158,11 +178,18 @@ body {
   background: #0f141b;
 }
 
+
+
+
+
+
+
 /* ----- Vollbildzustände für bestimmte Bereiche ----- */
 .fullscreen-main .nav, 
 .fullscreen-main .list, 
-.fullscreen-main .panel {
-  display: none;
+.fullscreen-main .panel, 
+.fullscreen-main .lv-btn-sh {
+  display: none !important;
 }
 .fullscreen-main .main {
   flex: 1 1 auto;
@@ -170,16 +197,22 @@ body {
 }
 .fullscreen-panel .nav,
 .fullscreen-panel .list, 
-.fullscreen-panel .main {
-  display: none;
+.fullscreen-panel .main,
+.fullscreen-panel .lv-btn-sh {
+  display: none !important;
 }
 .fullscreen-panel .panel {
   flex: 1 1 auto;
   max-width: 100%;
 }
 
+
+
+
+
+
 /* ----- Buttons ----- */
-.btn {
+.nav-btn {
   display: flex;
   align-items: center;
   gap: 0.5rem;
@@ -192,24 +225,88 @@ body {
   cursor: pointer;
   transition: transform 0.15s ease, background 0.15s ease; /* kleine Animation bei Interaktion */
 }
-.btn:hover {
+.nav-btn:hover {
   background: #1b2533;
 }
-.btn.active {
+.nav-btn.active {
   outline: 2px solid #3b82f6;
 }
-.btn .emoji {
+.nav-btn .emoji {
   font-size: 1.1rem;
   line-height: 1;
 }
-.btn .label {
+
+
+
+
+
+
+
+
+
+.mv-title {
+  color: #e6edf3;
+  font-weight: 600;
+  font-size: 15px;
+  letter-spacing: .2px;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
-.btn.compact {
-  justify-content: center;
+.mv-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 4px 10px;
+  border-bottom: 1px solid #1e2733;
 }
+.mv-left {
+  margin-right: auto;    
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+.mv-right {
+  margin-left: auto;                
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+.lv-btn, .lv-btn-sh {
+  appearance: none;
+  border: 1px solid #243041;
+  background: #17202b;
+  color: #e6edf3;
+  padding: 8px 15px;
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: 15px;
+  line-height: 1;
+  transition: background .15s ease, border-color .15s ease, transform .04s ease;
+}
+.lv-btn:hover { background: #1b2533; border-color: #2b3a4c; }
+.lv-btn:active { transform: translateY(1px); }
+.lv-btn:focus-visible { outline: 2px solid #3b82f6; outline-offset: 2px; }
+
+.lv-btn-ghost {
+  background: #141b24;
+  border-color: #223041;
+}
+.lv-btn-ghost:hover {
+  background: #1a2330;
+  border-color: #2a3a4e;
+}
+
+
+
+
+
+
+
+
+
+
+
 
 /* ----- Abzeichen (Badges) ----- */
 .badge {
@@ -235,17 +332,10 @@ body {
   color: #f8d7da;
 }
 
-/* ----- Hilfsklassen ----- */
-.section-title {
-  font-size: 0.75rem;
-  color: #9fb1c1;
-  margin: 0.3rem 0.4rem;
-}
-hr.sep {
-  border: none;
-  border-top: 1px solid #1e2733;
-  margin: 0.5rem 0;
-}
+
+
+
+
 
 /* Dünne, dezente Scrollbars (Firefox + WebKit) */
 .thin-scroll {
@@ -270,18 +360,22 @@ hr.sep {
   border-color: transparent;
 }
 
+
+
+
+
+
+
+
+
+
+
+
 /* === 1) Mobile: 320–677px === */
 @media (max-width: 767px) {
   .columns {
-    margin-left: 0;
-    width: 100%;
+    width: 100vw;
   }
-
-  /* Navigation + Liste füllen den gesamten Bildschirm */
-  .mobile-nav-list .columns {
-    margin-left: var(--nav-compact);
-  }
-
   .mobile-nav-list .list {
     display: block;
     flex: 1 1 auto;
@@ -295,27 +389,24 @@ hr.sep {
   .mobile-nav-list .panel {
     display: none !important;
   }
-
-  /* Nur Hauptbereich sichtbar */
   .mobile-main .nav {
-    transform: translateX(-100%);
+    display: none !important;
   }
   .mobile-main .list {
     display: none !important;
   }
+
+  .mobile-panel .list, .mobile-panel .main,  .mobile-panel .nav {
+    display: none !important;
+  }
+
   .mobile-main .main {
     display: block;
     flex: 1 1 auto;
     max-width: 100%;
   }
 
-  /* Nur Panel sichtbar */
-  .mobile-panel .nav {
-    transform: translateX(-100%);
-  }
-  .mobile-panel .list, .mobile-panel .main {
-    display: none !important;
-  }
+
   .mobile-panel .panel {
     display: block;
     flex: 1 1 auto;
@@ -326,12 +417,21 @@ hr.sep {
   }
 }
 
+
+
+
+
+
+
+
+
+
+
 /* === 2) Tablet: 768–1366px === */
 @media (min-width: 768px) and (max-width: 1366px) {
   .columns {
     display: flex;
     flex-direction: row;
-    margin-left: var(--nav-compact);
     width: 100%;
     min-width: 0; /* Container darf schrumpfen */
   }
@@ -363,6 +463,10 @@ hr.sep {
     display: none !important;
   }
 
+  /* Tablet-spezifischer Modus: Panel statt Main anzeigen */
+  .app.tablet-panel .main  { display: none !important; }
+  .app.tablet-panel .panel { display: block !important; }
+
   /* Einblendbare Liste, wenn sie zugeklappt ist */
   .app.list-collapsed .list {
     position: absolute;
@@ -371,22 +475,24 @@ hr.sep {
     bottom: 0;
     transform: translateX(-100%);
     pointer-events: none; /* keine Interaktion, wenn ausgeblendet */
-
-    /* Tablet-spezifischer Modus: Panel statt Main anzeigen */
-    .app.tablet-panel .panel {
-      display: block !important;
-    }
-    .app.tablet-panel .main {
-      display: none !important;
-    }
   }
+
 }
+
+
+
+
+
+
+
+
+
+
+
+
 
 /* === 3) Desktop: >= 1367px === */
 @media (min-width: 1367px) {
-  .columns {
-    margin-left: var(--nav-compact);
-  }
   .nav {
     transform: translateX(0);
   }
@@ -394,10 +500,10 @@ hr.sep {
     display: block;
   }
   .main {
-    display: block;
+    display: block !important; /* sicherstellen, dass Main sichtbar ist */
   }
   .panel {
-    display: block;
+    display: block !important; /* sicherstellen, dass Panel sichtbar ist */
     min-width: var(--panel-min);
   }
   .app.list-collapsed .list {

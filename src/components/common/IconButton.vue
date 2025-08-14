@@ -44,7 +44,7 @@ function onClick() {
 <template>
   <!-- aria-label keeps button accessible when text label is hidden in compact mode -->
   <button
-    class="btn compact"
+    class="nav-btn compact"
     :class="{ active: isActive }"
     @click="onClick"
     :aria-label="label"
