@@ -31,8 +31,5 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <div
-    style="width: 6px; cursor: col-resize; background: #1b2431"
-    @mousedown="down"
-  ></div>
+  <div class="splitter" @mousedown="down"></div>
 </template>

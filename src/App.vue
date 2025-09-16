@@ -3,11 +3,11 @@ import { onMounted } from "vue";
 import NavView from "./components/NavView.vue";
 import ListView from "./components/ListView.vue";
 import MainView from "./components/MainView.vue";
+import Splitter from "./components/common/Splitter.vue";
 import PanelView from "./components/PanelView.vue";
 import { useUiStore } from "./stores/ui";
 import { useViewport } from "./composables/useViewport";
 import { useHotkeys } from "./composables/useHotkeys";
-import Splitter from "./components/common/Splitter.vue";
 import { useBackNav } from "./composables/useBackNav";
 
 const ui = useUiStore();

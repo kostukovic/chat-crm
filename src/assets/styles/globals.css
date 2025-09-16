@@ -183,6 +183,24 @@ body {
 }
 
 
+/* Fester 6px-Splitter zwischen main und panel (Desktop) */
+.splitter {
+  flex: 0 0 4px;          /* Basis + keine Schrumpfung */
+  min-width: 4px;
+  max-width: 4px;
+  width: 4px;
+
+  height: 100%;           /* volle Höhe im Flex-Container */
+  align-self: stretch;    /* falls nötig, sicher strecken */
+  cursor: col-resize;
+  background: #1b2431;
+
+  flex-shrink: 0;         /* wichtig: nicht schrumpfen */
+  z-index: 6;             /* über panel/list klickbar */
+}
+
+.splitter:hover { background: #223044; }
+
 
 /* ----- Seitenpanel ----- */
 .panel {
@@ -512,6 +530,7 @@ body {
 
 
 
+
 /* === 2) Tablet: 768–1366px === */
 @media (min-width: 768px) and (max-width: 1366px) {
   .columns {
@@ -601,7 +620,9 @@ body {
 }
 
 
-
+@media (prefers-reduced-motion: reduce) {
+  .t-strip { transition: none !important; }
+}
 
 
 
@@ -626,6 +647,7 @@ body {
   }
   .panel {
     display: block !important; /* sicherstellen, dass Panel sichtbar ist */
+    flex: 1 1 auto; 
     min-width: var(--panel-min);
   }
   .app.list-collapsed .list {
